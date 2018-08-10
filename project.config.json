@@ -10,7 +10,7 @@
 	"compileType": "game",
 	"libVersion": "2.2.1",
 	"appid": "touristappid",
-	"projectname": "rank",
+	"projectname": "openDataContext-demo",
 	"isGameTourist": true,
 	"condition": {
 		"search": {

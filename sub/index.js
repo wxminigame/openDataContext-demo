@@ -7,7 +7,6 @@ const stage = new MiniCanvas(sharedCanvas);
 export default class Main {
     constructor() {
         this.initMessage();
-        this.renderFriendRank();
     }
     initMessage() {
         wx.onMessage(data => {

@@ -128,18 +128,18 @@ export default class Main {
 
         this.gameinfo.renderGameScore(ctx, databus.score)
 
-        // 绘制sharedCanvas
         ctx.drawImage(sharedCanvas, 0, 0);
 
         // 游戏结束停止帧循环
         if (databus.gameOver) {
-            // this.gameinfo.renderGameOver(ctx, databus.score)
-
-            /*if (!this.hasEventBind) {
+            // this.gameinfo.renderGameOver(ctx, databus.score);
+            // 绘制sharedCanvas
+            
+            if (!this.hasEventBind) {
                 this.hasEventBind = true
                 this.touchHandler = this.touchEventHandler.bind(this)
-                canvas.addEventListener('touchstart', this.touchHandler)
-            }*/
+                canvas.addEventListener('touchstart', this.touchHandler);
+            }
         }
     }
 
@@ -181,13 +181,48 @@ export default class Main {
 }
 
 
-let openDataContext = wx.getOpenDataContext()
-openDataContext.postMessage({
-    type: 1,
-    data: 'data'
+window.shareInfo = {
+    title: '分享文案',
+    imageUrl: 'image/bg.png',
+    query: '',
+    success: function(res) {
+        console.log(res)
+    },
+    fail: function(res) {
+        console.log(res)
+    },
+    complete: function(res) {
+        console.log(res)
+    }
+};
+
+wx.showShareMenu && wx.showShareMenu({
+    withShareTicket: true
 });
 
-let data = {
+wx.onShareAppMessage && wx.onShareAppMessage(function() {
+    return window.shareInfo;
+});
+
+
+var openDataContext = wx.getOpenDataContext();
+
+
+wx.onShow(options => {
+    if(options.shareTickets){
+        openDataContext.postMessage({
+            type: 'showGroupRank',
+            shareTickets: options.shareTickets
+        });
+    }else{
+        openDataContext.postMessage({
+            type: 'showFriendRank'
+        });
+    }
+});
+
+
+var data = {
     "wxgame": {
       "score": Math.floor(Math.random() * 1000),
       "update_time": Math.floor(Date.now() / 1000)

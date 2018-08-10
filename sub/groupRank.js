@@ -87,13 +87,6 @@ export default class GroupRank {
         this.stage.addChild(title);
     }
     renderBackground() {
-/*        let img = new Bitmap();
-        img.width = this.stage.width;
-        img.height = this.stage.height;
-        img.pos(0, 0);
-        img.src = 'images/sub/bg.png';
-        this.stage.addChild(img);*/
-
         let background = new Graphic();
         background.pos(0, 0);
         background.rect(0, 0, this.stage.width, this.stage.height);

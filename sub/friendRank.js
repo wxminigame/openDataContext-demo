@@ -22,7 +22,7 @@ export default class FriendRank {
         wx.getFriendCloudStorage({
             keyList: ['score'],
             success: res => {
-              console.log(JSON.stringify(res));
+              //console.log(JSON.stringify(res));
                 if (!res.data.length) return;
                 this.list = res.data;
                 this.render();
@@ -85,13 +85,6 @@ export default class FriendRank {
         this.stage.addChild(title);
     }
     renderBackground() {
-/*        let img = new Bitmap();
-        img.width = this.stage.width;
-        img.height = this.stage.height;
-        img.pos(0, 0);
-        img.src = 'images/sub/bg.png';
-        this.stage.addChild(img);*/
-
         let background = new Graphic();
         background.drawRect(0, 0, this.stage.width, this.stage.height, 'rgba(0,0,0,0.6)');
         this.stage.addChild(background);

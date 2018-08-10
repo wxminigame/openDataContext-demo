@@ -41,11 +41,8 @@ class List extends Sprite {
         this.bindEvent();
     }
     setContentSize() {
-        console.log(this.parent)
         if (this.parent) {
-            console.log(this.parent.height)
             this.parent.height = this.itemHeight * this.repeatY;
-            console.log(this.parent.height);
             this.parent.resetHeight();
         }
     }
@@ -56,7 +53,6 @@ class List extends Sprite {
         return this._bgColor
     }
     set array(value) {
-        console.error(value)
         this.dataSource = value;
         this.renderItems();
         this.setContentSize();
@@ -128,10 +124,10 @@ class List extends Sprite {
     bindEvent() {
         let startX, startY, depY;
         let that = this,
-            startTop = 0,
-            endTop  = 0,
-            startTime = 0,
-            endTime = 0;
+            startTop    = 0,
+            endTop      = 0,
+            startTime   = 0,
+            endTime     = 0;
 
         let frameid = null;
 
@@ -158,7 +154,7 @@ class List extends Sprite {
                     return;
                 }
                 depY = point.clientY - startY;
-                if (depY < 0 && -that.y > that.totalHeight - that.height + MAX_OFFSET) {
+                if (depY < 0 && that.totalHeight - that.height + MAX_OFFSET + that.y < 0) {
                     return;
                 }
                 if (depY > 0 && that.y - MAX_OFFSET > 0) {
@@ -188,19 +184,13 @@ class List extends Sprite {
             endTime = new Date().getTime();
             endTop = e.changedTouches[0].clientY;
 
-            /*if (!that.canDragable(e.changedTouches[0].clientX, endTop)) {
-                console.error('超出区域');
-                tween();
-                return;
-            }*/
-
             depY = endTop - startY;
             startY = endTop;
 
             start = 0;
             begin = that.y;
 
-            if (depY <= 0 && -that.y > that.totalHeight - that.height) {
+            if (depY <= 0 && that.totalHeight - that.height + that.y < 0) {
                 // bottom
                 distance = that.height - that.totalHeight - that.y;
             } else if (depY >= 0 && that.y > 0) {
@@ -209,7 +199,7 @@ class List extends Sprite {
             } else {
                 // 惯性运动
                 speed = (endTop - startTop) / (endTime - startTime);
-                distance = speed * 200;
+                distance = speed * 1200;
                 if (endTop - startTop > 0 && begin + distance > 0) {
                     distance = -begin;
                 } else if (endTop - startTop < 0 && (begin + distance) < (that.height - that.totalHeight)) {
@@ -223,10 +213,6 @@ class List extends Sprite {
             }
             tween();
             startTop = endTop;
-        });
-
-        wx.onTouchCancel(function(e) {
-            console.error('onTouchCancel')
         });
 
         function tween() {
